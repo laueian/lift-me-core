@@ -1,26 +1,36 @@
+//Express Setup
 const express = require("express");
-const MongoClient = require("mongodb").MongoClient;
-const bodyParser = require("body-parser");
-var db = require("./config/db");
-
 const app = express();
 
-const port = 8000;
+// bodyParse to conveniently get paramaters out of urls
+const bodyParser = require("body-parser");
+// app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// Mongoose Connection Setup
+const mongoose = require("mongoose");
+const db = require("./config/db");
+const mongoDB = db.url;
+mongoose.connect(mongoDB, {useNewUrlParser: true});
+mongoose.Promise = global.Promise;
+let connection = mongoose.connection;
+connection.on('error', console.error.bind(console, "MongoDB connection error:"));
 
-MongoClient.connect(
-  db.url,
-  { useNewUrlParser: true },
-  (err, database) => {
-    if (err) return console.log(err);
+// set responses as JSON
+app.set('json spaces', 40);
 
-    // Make sure you add the database name and not the collection name
-    db = database.db("lift-me");
-    require("./app/routes")(app, db);
+// Include the quote model
+const Quote = require("./models/quote");
 
-    app.listen(port, () => {
-      console.log("We are live on " + port);
-    });
-  }
-);
+// Include routes
+const quoteRoutes = require("./routes/quotes");
+
+// Defining the port on which the server is going to run
+const port = (process.env.PORT || 8000);
+
+// include routes
+app.use("/", quoteRoutes);
+
+// Server is started and is listening on the defined port
+app.listen(port, () => {
+  console.log("We're live on " + port);
+})
