@@ -34,7 +34,7 @@ router.put("/quotes/:id", function(req, res) {
 
 router.delete("/quotes/:id", function(req, res) {
   Quotes.findByIdAndRemove(req.params.id, (err, quote) => {
-    if (err) return es.status(500).send(err);
+    if (err) return res.status(500).send(err);
     const response = {
       message: "Quote successfully deleted",
       id: quote._id
