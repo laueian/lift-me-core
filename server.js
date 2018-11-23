@@ -11,6 +11,10 @@ mongoose.Promise = global.Promise;
 let connection = mongoose.connection;
 connection.on('error', console.error.bind(console, "MongoDB connection error:"));
 
+// configure body-parser
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
 // set responses as JSON
 app.set('json spaces', 40);
 
