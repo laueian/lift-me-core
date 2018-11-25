@@ -21,7 +21,7 @@ router.post("/quotes", function(req, res) {
 });
 
 router.put("/quotes/:id", function(req, res) {
-  Quotes.findByIdAndUpdate(
+  Quotes.findOneAndUpdate(
     req.params.id,
     req.body,
     { new: true },

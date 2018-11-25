@@ -28,12 +28,13 @@ app.set("json spaces", 40);
 
 // Include routes
 const quoteRoutes = require("./routes/quotes");
+const brainyquoteScrapes = require("./routes/brainyquoteScrapes");
 
 // Defining the port on which the server is going to run
 const port = process.env.PORT || 8000;
 
 // include routes
-app.use("/", quoteRoutes);
+app.use("/", quoteRoutes, brainyquoteScrapes);
 
 // Server is started and is listening on the defined port
 app.listen(port, () => {
