@@ -22,6 +22,10 @@ router.get("/brainyquoteScrape", (req, res) => {
         });
         collectionOfBread.push(cleanBread);
       }
+      Quotes.insertMany(collectionOfBread, {
+        writeConcern: Quotes,
+        ordered: false
+      });
       res.send("Bread acquired");
     })
     .catch(err => {
