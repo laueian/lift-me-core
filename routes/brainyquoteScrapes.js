@@ -4,11 +4,11 @@ const BrainyquotesScrape = require("../models/brainyquoteScrape");
 const Quotes = require("../models/quote.js");
 const axios = require("axios");
 
+const scraper = require("../config/scraper");
+
 router.get("/brainyquoteScrape", (req, res) => {
   axios
-    .get(
-      "https://7p7rvvekjb.execute-api.us-west-1.amazonaws.com/default/motivational-scraping?url=https://www.brainyquote.com/topics/family"
-    )
+    .get(`${scraper.url}${scraper.targetWebsiteUrl}/topics/family`)
     .then(response => {
       let bread = JSON.parse(response.data.body);
       let collectionOfBread = [];
@@ -17,11 +17,11 @@ router.get("/brainyquoteScrape", (req, res) => {
 
         const cleanBread = new Object({
           body: splitBread[0],
-          author: splitBread[1],
-          friend: "Julaan"
+          author: splitBread[1]
         });
         collectionOfBread.push(cleanBread);
       }
+
       Quotes.insertMany(collectionOfBread, {
         writeConcern: Quotes,
         ordered: false
@@ -32,5 +32,7 @@ router.get("/brainyquoteScrape", (req, res) => {
       res.send(err);
     });
 });
+
+router;
 
 module.exports = router;
