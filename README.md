@@ -6,7 +6,7 @@ Quotes for all
 
 ## Server
 
-In the project root directory, run node server.js. 
+In the project root directory, run `node server.js`. 
 This will start the application on port 8000.
 
 ## Client
@@ -41,3 +41,5 @@ For the react client to have access to the express api, it is important to inclu
   "proxy": "http://localhost:8000"
 }
 ```
+
+After that has been implemented, simply run `npm start`.
