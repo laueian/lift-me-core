@@ -6,7 +6,7 @@ Quotes for all
 
 ## Server
 
-In the project root directory, run `node server.js`. 
+In the project root directory, run `npm start`. 
 This will start the application on port 8000.
 
 ## Client

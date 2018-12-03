@@ -4,7 +4,7 @@
   "description": "Quotes for all",
   "main": "server.js",
   "scripts": {
-    "server": "node server.js",
+    "start": "node server.js",
     "build": "webpack --mode production"
   },
   "author": "Ian Laue, Shahed Salehian",
