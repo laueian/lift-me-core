@@ -1,0 +1,18 @@
+.Card-Container{
+	list-style-type: none;
+	color: white;
+	margin: 100px;
+	border: 5px solid rgba(25,25,25,0.5);
+	padding: 10px;
+	background-color: rgba(200,205,205,0.75);
+	border-radius: 10px;
+}
+
+.Card-Container span{
+	display: inline-block;
+}
+
+.Card-Author {
+	font-size: 1.5rem;
+}
+

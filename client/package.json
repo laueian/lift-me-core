@@ -1,19 +1,3 @@
-# lift-me
-Quotes for all
-
-
-# How To Run The Application
-
-## Server
-
-In the project root directory, run `npm start`. 
-This will start the application on port 8000.
-
-## Client
-
-For the react client to have access to the express api, it is important to include url for the API as a proxy in the package.json of the react application.
-
-```
 {
   "name": "client",
   "version": "0.1.0",
@@ -40,6 +24,3 @@ For the react client to have access to the express api, it is important to inclu
   ],
   "proxy": "http://localhost:8000"
 }
-```
-
-After that has been implemented, simply run `npm start`.
