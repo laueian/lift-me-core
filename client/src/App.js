@@ -19,13 +19,12 @@ class App extends Component {
     });
   }
 
-
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <ul>
-            {this.state.quotes.map((item,i) => {
+            {this.state.quotes.map((item, i) => {
               return <Card body={item.body} author={item.author} key={i} />
             })}
           </ul>    
@@ -33,6 +32,7 @@ class App extends Component {
       </div>
     );
   }
+  
 }
 
 export default App;
