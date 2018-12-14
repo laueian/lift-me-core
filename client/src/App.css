@@ -7,6 +7,11 @@
   height: 40vmin;
 }
 
+.Cards {
+  margin: 0;
+  padding: 0;
+}
+
 .App-header {
   background-color: #ffffff;
   min-height: 100vh;
