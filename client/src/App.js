@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Card from './components/Card.js';
+import Header from './components/Header.js';
 
 class App extends Component {
 
@@ -19,20 +20,19 @@ class App extends Component {
     });
   }
 
-
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <ul>
-            {this.state.quotes.map((item,i) => {
+          <Header/>
+          <ul className="Cards">
+            {this.state.quotes.map((item, i) => {
               return <Card body={item.body} author={item.author} key={i} />
             })}
-          </ul>    
-        </header>
+          </ul>        
       </div>
     );
   }
+
 }
 
 export default App;
