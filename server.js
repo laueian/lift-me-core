@@ -10,20 +10,8 @@ const cors = require("cors");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Set up a whitelist and check against it:
-var whitelist = ["https://life-me.herokuapp.com"];
-var corsOptions = {
-  origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
-};
-
 //User CORS
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Mongoose Connection Setup
 const mongoose = require("mongoose");
