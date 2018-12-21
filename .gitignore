@@ -1,4 +1,4 @@
 node_modules/
-.config/
+config/
 .vscode/
 .DS_Store   
