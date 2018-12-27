@@ -7,7 +7,7 @@
     "start": "node server.js",
     "build": "webpack --mode production"
   },
-  "author": "Ian Laue, Shahed Salehian, Chanya Dudley, Deon Holt",
+  "author": "Ian Laue, Shahed Salehian",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
