@@ -6,7 +6,7 @@ const axios = require("axios");
 
 const scraper = require("../config/scraper");
 
-router.get("/brainyquoteScrape", (req, res) => {
+router.get("/", (req, res) => {
   axios
     .get(`${scraper.url}${scraper.targetWebsiteUrl}/topics/family`)
     .then(response => {

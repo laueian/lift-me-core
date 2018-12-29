@@ -4,7 +4,7 @@ const Quotes = require("../models/quote.js");
 
 
 // GET all the quotes
-router.get("/quotes", (req, res) => {
+router.get("/", (req, res) => {
   Quotes.find({}, (err, quotes) => {
     if (err) {
       console.log(err);
@@ -15,7 +15,7 @@ router.get("/quotes", (req, res) => {
 });
 
 // POST a quote
-router.post("/quotes", function(req, res) {
+router.post("/", function (req, res) {
   const quote = new Quotes(req.body);
   quote.save(err => {
     if (err) return res.status(500).send(err);
@@ -24,7 +24,7 @@ router.post("/quotes", function(req, res) {
 });
 
 // UPDATE a quote
-router.put("/quotes/:id", function(req, res) {
+router.put("/:id", function (req, res) {
   Quotes.findOneAndUpdate(
     req.params.id,
     req.body,
@@ -37,7 +37,7 @@ router.put("/quotes/:id", function(req, res) {
 });
 
 // DELETE a quote
-router.delete("/quotes/:id", function(req, res) {
+router.delete("/:id", function (req, res) {
   Quotes.findByIdAndRemove(req.params.id, (err, quote) => {
     if (err) return res.status(500).send(err);
     const response = {

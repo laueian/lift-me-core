@@ -1,19 +1,40 @@
 //Express Setup
 const express = require("express");
 const app = express();
+
 // Body Parser - Middleware for handling JSON boodies
 const bodyParser = require("body-parser");
-//Enable CORS
-const cors = require("cors");
-
-//Body Parser Setup
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//User CORS
+//Enable CORS
+const cors = require("cors");
 app.use(cors());
 
-// Mongoose Connection Setup
+//Keys
+const Keys = require('./config/keys')
+
+//Passport Setup
+const passportSetup = require('./services/passport')
+
+//Initialize passport
+const passport = require('passport')
+
+//Cookie session
+const cookieSession = require('cookie-session')
+
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: [Keys.session.cookieKey]
+}));
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+//View Engine
+app.set('view engine', 'ejs');
+
+// MongoDB Setup
 const mongoose = require("mongoose");
 const db = require("./config/db");
 const mongoDB = db.url;
@@ -28,18 +49,28 @@ connection.on(
   console.error.bind(console, "MongoDB connection error:")
 );
 
+// create home route
+app.get('/', (req, res) => {
+  res.render('home');
+});
+
 // set responses as JSON
 app.set("json spaces", 40);
 
 // Include routes
 const quoteRoutes = require("./routes/quotes");
 const brainyquoteScrapes = require("./routes/brainyquoteScrapes");
+const authRoutes = require("./routes/auth");
+const profileRoutes = require("./routes/profile")
+
+// use routes
+app.use("/quotes", quoteRoutes);
+app.use("/brainyquoteScrape", brainyquoteScrapes);
+app.use("/auth", authRoutes);
+app.use("/profile", profileRoutes);
 
 // Defining the port on which the server is going to run
 const port = process.env.PORT || 8000;
-
-// use routes
-app.use("/", quoteRoutes, brainyquoteScrapes);
 
 // Server is started and is listening on the defined port
 app.listen(port, () => {
