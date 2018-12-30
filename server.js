@@ -1,3 +1,7 @@
+const https = require('https')
+const http = require('http')
+const path = require('path');
+var fs = require('fs')
 //Express Setup
 const express = require("express");
 const app = express();
@@ -10,6 +14,12 @@ app.use(bodyParser.json());
 //Enable CORS
 const cors = require("cors");
 app.use(cors());
+
+//Local Cert
+const options = {
+  key: fs.readFileSync(__dirname + '/cert/localhost-key.pem'),
+  cert: fs.readFileSync(__dirname + '/cert/localhost.pem')
+};
 
 //Keys
 const Keys = require('./config/keys')
@@ -33,6 +43,7 @@ app.use(passport.session())
 
 //View Engine
 app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 
 // MongoDB Setup
 const mongoose = require("mongoose");
@@ -72,7 +83,22 @@ app.use("/profile", profileRoutes);
 // Defining the port on which the server is going to run
 const port = process.env.PORT || 8000;
 
-// Server is started and is listening on the defined port
-app.listen(port, () => {
-  console.log("We're live on " + port);
+// // https
+// https.createServer(options, app).listen(443, () => {
+//   console.log('HTTPS listening on 443')
+// })
+
+
+
+
+https.createServer(options, app).listen(443, () => {
+  console.log("We're live on 443");
 });
+http.createServer(app).listen(8000, () => {
+  console.log("We're live on 8000");
+});
+
+// // Server is started and is listening on the defined port
+// require('http').createServer(app).listen(port, () => {
+//   console.log("We're live on " + port);
+// });

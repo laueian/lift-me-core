@@ -27,7 +27,13 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 // TODO
 
 // auth with facebook
-// TODO
+router.get('/facebook', passport.authenticate('facebook'));
+
+// callback route for facebook to redirect to
+router.get('/facebook/redirect', passport.authenticate('facebook', { failureRedirect: '/login' }),
+    (req, res) => {
+        res.redirect('/profile/')
+    });
 
 // auth with twitter
 // TODO
