@@ -81,24 +81,12 @@ app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
 
 // Defining the port on which the server is going to run
-const port = process.env.PORT || 8000;
+const portHttps = process.env.PORT || 443;
+const portHttp = process.env.PORT || 8080;
 
-// // https
-// https.createServer(options, app).listen(443, () => {
-//   console.log('HTTPS listening on 443')
-// })
-
-
-
-
-https.createServer(options, app).listen(443, () => {
-  console.log("We're live on 443");
+https.createServer(options, app).listen(portHttps, () => {
+  console.log(`We're live on ${portHttps} - HTTPS`);
 });
-http.createServer(app).listen(8000, () => {
-  console.log("We're live on 8000");
+http.createServer(app).listen(portHttp, () => {
+  console.log(`We're live on ${portHttp} - HTTP`);
 });
-
-// // Server is started and is listening on the defined port
-// require('http').createServer(app).listen(port, () => {
-//   console.log("We're live on " + port);
-// });
