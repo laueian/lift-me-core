@@ -15,6 +15,9 @@ app.use(bodyParser.json());
 const cors = require("cors");
 app.use(cors());
 
+//Favicon
+var favicon = require('serve-favicon')
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 // Env config
 //Local Cert

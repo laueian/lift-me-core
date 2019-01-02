@@ -16,11 +16,18 @@ router.get("/", (req, res) => {
 
 // POST a quote
 router.post("/", function (req, res) {
-  const quote = new Quotes(req.body);
-  quote.save(err => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).send(quote);
-  });
+  Quotes.find({ body: req.body.body })
+    .then((result) => {
+      if (result && result != '') {
+        return res.status(200).send('This data already exists!');
+      } else {
+        new Quotes(req.body).save((err, newQuote) => {
+          if (err) return res.status(500).send(err);
+          return res.status(200).send(newQuote);
+        });
+      }
+    });
+
 });
 
 // UPDATE a quote
