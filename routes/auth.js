@@ -20,7 +20,8 @@ router.get('/google', passport.authenticate('google', {
 
 // callback route for google to redirect to
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.redirect('/profile/')
+    // Env config
+    res.redirect('https://localhost:3000/profile/')
 });
 
 // local auth
@@ -32,7 +33,8 @@ router.get('/facebook', passport.authenticate('facebook'));
 // callback route for facebook to redirect to
 router.get('/facebook/redirect', passport.authenticate('facebook', { failureRedirect: '/login' }),
     (req, res) => {
-        res.redirect('/profile/')
+        // Env config
+        res.redirect('https://localhost:3000/profile/')
     });
 
 // auth with twitter

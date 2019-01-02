@@ -15,11 +15,20 @@ app.use(bodyParser.json());
 const cors = require("cors");
 app.use(cors());
 
+
+// Env config
 //Local Cert
 const options = {
   key: fs.readFileSync(__dirname + '/cert/localhost-key.pem'),
   cert: fs.readFileSync(__dirname + '/cert/localhost.pem')
 };
+
+// Env config
+//Prod Cert
+//const options = {
+//  key: fs.readFileSync(__dirname + '/cert/privkey.pem'),
+//  cert: fs.readFileSync(__dirname + '/cert/fullchain.pem')
+//};
 
 //Keys
 const Keys = require('./config/keys')
@@ -81,12 +90,8 @@ app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
 
 // Defining the port on which the server is going to run
-const portHttps = process.env.PORT || 443;
-const portHttp = process.env.PORT || 8080;
+const portHttps = process.env.PORT || 3000;
 
 https.createServer(options, app).listen(portHttps, () => {
   console.log(`We're live on ${portHttps} - HTTPS`);
-});
-http.createServer(app).listen(portHttp, () => {
-  console.log(`We're live on ${portHttp} - HTTP`);
 });
