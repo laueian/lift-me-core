@@ -1,4 +1,4 @@
-# lift-me
+# lift-me-core
 
 Live a happier, healthier life - Inspiration and Motivation for the Modern Day
 
