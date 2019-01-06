@@ -1,7 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-const Keys = require("../config/keys");
 const User = require("../models/user");
 
 passport.serializeUser((user, done) => {
@@ -18,8 +17,8 @@ passport.use(
   new GoogleStrategy(
     {
       // options for google strategy
-      clientID: Keys.google.clientID,
-      clientSecret: Keys.google.clientSecret,
+      clientID: JSON.parse(process.env.SECRETS).googleClientID,
+      clientSecret: JSON.parse(process.env.SECRETS).googleClientSecret,
       callbackURL: "/auth/google/redirect"
     },
     (accessToken, refreshToken, profile, done) => {
@@ -47,8 +46,8 @@ passport.use(
 passport.use(
   new FacebookStrategy(
     {
-      clientID: Keys.facebook.local.clientID,
-      clientSecret: Keys.facebook.local.clientSecret,
+      clientID: JSON.parse(process.env.SECRETS).facebookClientID,
+      clientSecret: JSON.parse(process.env.SECRETS).facebookClientSecret,
       callbackURL: "/auth/facebook/redirect"
     },
     (accessToken, refreshToken, profile, done) => {

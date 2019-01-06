@@ -1,33 +1,35 @@
 const axios = require("axios");
 const Quotes = require("../models/quote.js");
 
-const scraper = require("../config/scraper");
+module.exports = (category, topic) => {
+  axios
+    .get(
+      `${JSON.parse(process.env.SECRETS).scraperEndpoint}${
+        JSON.parse(process.env.SECRETS).scraperTargetUrl
+      }/topics/family`
+    )
+    .then(response => {
+      let bread = JSON.parse(response.data.body);
+      let collectionOfBread = [];
 
-axios
-  .get(`${scraper.url}${scraper.targetWebsiteUrl}/topics/family`)
-  .then(response => {
-    console.log(response);
+      for (let quoteAndAuthor of bread) {
+        let splitBread = quoteAndAuthor.split("-");
 
-    let bread = JSON.parse(response.data.body);
-    let collectionOfBread = [];
+        const cleanBread = new Object({
+          body: splitBread[0],
+          author: splitBread[1]
+        });
+        collectionOfBread.push(cleanBread);
+      }
 
-    for (let quoteAndAuthor of bread) {
-      let splitBread = quoteAndAuthor.split("-");
-
-      const cleanBread = new Object({
-        body: splitBread[0],
-        author: splitBread[1]
+      Quotes.insertMany(collectionOfBread, {
+        writeConcern: Quotes,
+        ordered: false
       });
-      collectionOfBread.push(cleanBread);
-    }
-
-    Quotes.insertMany(collectionOfBread, {
-      writeConcern: Quotes,
-      ordered: false
+      res.send("Bread acquired");
+    })
+    // Need to improve error handling on Lambda end
+    .catch(err => {
+      console.log(err);
     });
-    console.log("Bread acquired");
-  })
-  // Need to improve error handling on Lambda end
-  .catch(err => {
-    console.log(err);
-  });
+};
