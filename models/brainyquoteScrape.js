@@ -5,7 +5,9 @@ const Schema = mongoose.Schema;
 // and how it is going to be stored in the Database
 const brainyquoteScrapeSchema = new Schema({
   category: String,
-  topic: String
+  topic: String,
+  scrapedOnce: Boolean,
+  lastScraped: String
 });
 
 // We need to export the model of the quote

@@ -10,7 +10,6 @@
   "author": "Ian Laue, Shahed Salehian",
   "license": "MIT",
   "dependencies": {
-    "agenda": "^2.0.2",
     "aws-sdk": "^2.382.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
@@ -20,11 +19,11 @@
     "express": "^4.16.4",
     "mongodb": "^3.1.10",
     "mongoose": "^5.3.13",
+    "node-cron": "^2.0.3",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
-    "serve-favicon": "^2.5.0",
-    "uuid": "^3.3.2"
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.6"
