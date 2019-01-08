@@ -23,8 +23,8 @@ router.get(
 
 // callback route for google to redirect to
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  // Env config
-  res.redirect("https://localhost:3000/profile/");
+  if (process.env.ENVIRONMENT == "local") res.redirect("/profile/");
+  else res.redirect("https://lift-me-core.ianlaue.com/profile/");
 });
 
 // local auth
@@ -38,8 +38,8 @@ router.get(
   "/facebook/redirect",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
   (req, res) => {
-    // Env config
-    res.redirect("https://localhost:3000/profile/");
+    if (process.env.ENVIRONMENT == "local") res.redirect("/profile/");
+    else res.redirect("https://lift-me-core.ianlaue.com/profile/");
   }
 );
 
