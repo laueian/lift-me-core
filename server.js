@@ -3,7 +3,7 @@ process.env.ENVIRONMENT = "local";
 const https = require("https");
 const http = require("http");
 const path = require("path");
-var fs = require("fs");
+const fs = require("fs");
 //Express Setup
 const express = require("express");
 const app = express();
@@ -20,9 +20,6 @@ app.use(cors());
 //Favicon
 var favicon = require("serve-favicon");
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
-
-//Keys
-const Keys = require("./config/keys");
 
 //View Engine
 app.set("view engine", "ejs");
@@ -114,7 +111,7 @@ function setupPassport() {
   app.use(
     cookieSession({
       maxAge: 24 * 60 * 60 * 1000,
-      keys: [Keys.session.cookieKey]
+      keys: [JSON.parse(process.env.SECRETS).cookieKey]
     })
   );
 
