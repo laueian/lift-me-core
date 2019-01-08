@@ -42,11 +42,10 @@ router.get("/:id", function(req, res) {
     .then(
       BrainyquotesScrape.findOneAndUpdate(req.params.id, {
         scrapedOnce: true
+      }).then(result => {
+        res.status(200).send(result);
       })
-    )
-    .then(result => {
-      res.status(200).send(result);
-    });
+    );
 });
 
 module.exports = router;
