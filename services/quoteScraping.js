@@ -38,7 +38,7 @@ module.exports = scraperConfigData => {
             }
           });
         });
-        console.log("New quotes acquired!");
+        console.log(collectionOfQuotes.length + " new quotes acquired!");
       })
       // Need to improve error handling on Lambda end
       .catch(err => {

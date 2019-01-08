@@ -39,7 +39,11 @@ router.get("/:id", function(req, res) {
     quoteScraper(result);
   });
 
-  BrainyquotesScrape.findOneAndUpdate(req.params.id, { scrapedOnce: true });
+  BrainyquotesScrape.findOneAndUpdate(req.params.id, {
+    scrapedOnce: true
+  }).then(result => {
+    res.status(200).send(result);
+  });
 });
 
 module.exports = router;
