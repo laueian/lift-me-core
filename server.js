@@ -21,35 +21,17 @@ app.use(cors());
 var favicon = require("serve-favicon");
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
-//Initialize passport
-const passport = require("passport");
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 //View Engine
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
-
-// set responses as JSON
-app.set("json spaces", 40);
-
-// Include routes
-const quoteRoutes = require("./routes/quotes");
-const brainyquoteScrapes = require("./routes/brainyquoteScrapes");
-const authRoutes = require("./routes/auth");
-const profileRoutes = require("./routes/profile");
-
-// use routes
-app.use("/quotes", quoteRoutes);
-app.use("/brainyquoteScrape", brainyquoteScrapes);
-app.use("/auth", authRoutes);
-app.use("/profile", profileRoutes);
 
 // create home route
 app.get("/", (req, res) => {
   res.render("home");
 });
+
+// set responses as JSON
+app.set("json spaces", 40);
 
 // ===========================================
 // -------Anything dependent on secrets-------
@@ -57,11 +39,24 @@ app.get("/", (req, res) => {
 
 const client = require("./services/aws");
 const secretName = selectEnvSecret();
-const options = certConfig();
-
 function selectEnvSecret() {
   if (process.env.ENVIRONMENT == "local") return "lift-me-core-local";
   else return "lift-me-core-prod";
+}
+
+const options = certConfig();
+function certConfig() {
+  if (process.env.ENVIRONMENT == "local") {
+    return {
+      key: fs.readFileSync(__dirname + "/cert/localhost-key.pem"),
+      cert: fs.readFileSync(__dirname + "/cert/localhost.pem")
+    };
+  } else {
+    return {
+      key: fs.readFileSync(__dirname + "/cert/privkey.pem"),
+      cert: fs.readFileSync(__dirname + "/cert/fullchain.pem")
+    };
+  }
 }
 
 client.getSecretValue({ SecretId: secretName }, (err, data) => {
@@ -74,7 +69,6 @@ client.getSecretValue({ SecretId: secretName }, (err, data) => {
     }
 
     setupPassport();
-    cookieSetup();
     connectDatabase();
     startServer();
   }
@@ -103,21 +97,15 @@ function connectDatabase() {
   );
 }
 
-function certConfig() {
-  if (process.env.ENVIRONMENT == "local") {
-    return {
-      key: fs.readFileSync(__dirname + "/cert/localhost-key.pem"),
-      cert: fs.readFileSync(__dirname + "/cert/localhost.pem")
-    };
-  } else {
-    return {
-      key: fs.readFileSync(__dirname + "/cert/privkey.pem"),
-      cert: fs.readFileSync(__dirname + "/cert/fullchain.pem")
-    };
-  }
-}
+function setupPassport() {
+  //ORDER MATTERS
+  // 1. cookieParser
+  // 2. session
+  // 3. passport.initialize
+  // 4. passport.session
+  // 5. app.router
 
-function cookieSetup() {
+  //Cookie session
   const cookieSession = require("cookie-session");
 
   app.use(
@@ -126,8 +114,25 @@ function cookieSetup() {
       keys: [JSON.parse(process.env.SECRETS).cookieKey]
     })
   );
-}
 
-function setupPassport() {
+  //Initialize passport
+  const passport = require("passport");
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  //Passport Setup
   const passportSetup = require("./services/passport");
+
+  // Include routes
+  const quoteRoutes = require("./routes/quotes");
+  const brainyquoteScrapes = require("./routes/brainyquoteScrapes");
+  const authRoutes = require("./routes/auth");
+  const profileRoutes = require("./routes/profile");
+
+  // use routes
+  app.use("/quotes", quoteRoutes);
+  app.use("/brainyquoteScrape", brainyquoteScrapes);
+  app.use("/auth", authRoutes);
+  app.use("/profile", profileRoutes);
 }
